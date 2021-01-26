@@ -1,0 +1,22 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site </title>
+    <link>https://franklinliang.github.io/</link>
+    <language>en-us</language>
+    <author></author>
+    <rights>(C) 2021</rights>
+    <updated>2021-01-26 15:58:22 -0500 EST</updated>
+
+    
+      <item>
+        <title>My First Post</title>
+        <link>https://franklinliang.github.io/posts/my-first-post/</link>
+        <pubDate>Tue, 26 Jan 2021 15:58:22 EST</pubDate>
+        <author></author>
+        <guid>https://franklinliang.github.io/posts/my-first-post/</guid>
+        <description></description>
+      </item>
+    
+
+  </channel>
+</rss>
