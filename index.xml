@@ -65,13 +65,25 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This will open the nano editor which allows you to edit the torrc file. Using arrow keys to scroll up and down in this file until you come across the following lines. These lines will be preceded by the # symbol. You will need to remove the # symbol and edit the lines to match the following input. These lines are not grouped together in the torrc file, however I assure you they are all present.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;ORPort 443
-Exitpolicy reject &lt;em&gt;.&lt;/em&gt;
-Nickname [Pick a nickname for your relay]
-ContactInfo [email at provider dot com]
-Log notice file /var/log/tor/notices.log
-RelayBandwidthRate 1024 KB
-RelayBandwithBurst 1024 KB&lt;/p&gt;
+&lt;p&gt;ORPort 443&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Exitpolicy reject &lt;em&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Nickname [Pick a nickname for your relay]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ContactInfo [email at provider dot com]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Log notice file /var/log/tor/notices.log&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;RelayBandwidthRate 1024 KB&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;RelayBandwithBurst 1024 KB&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Note that the ContactInfo email needs to be obfuscated a little. This is because this email will be publicly listed. Consider making a burner email specifically for this relay as you will not want spam arriving in your daily inbox.&lt;/p&gt;
 &lt;p&gt;Save and exit the file by pressing Ctrl X then following the prompt at the bottom of the screen.&lt;/p&gt;
