@@ -68,7 +68,7 @@
 &lt;p&gt;ORPort 443&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Exitpolicy reject &lt;em&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Exitpolicy reject *.*&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Nickname [Pick a nickname for your relay]&lt;/p&gt;
