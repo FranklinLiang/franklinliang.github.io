@@ -17,7 +17,7 @@
       <pubDate>Sun, 31 Jan 2021 03:23:22 -0500</pubDate>
       
       <guid>https://franklinliang.github.io/posts/how-to-run-a-tor-relay-as-a-student-for-free/</guid>
-      <description>How to run a Tor relay as a student for free  This post is based on Robert DeVore&amp;rsquo;s &amp;ldquo;Run a Tor relay&amp;rdquo; found here: https://www.robertdevore.com/run-a-tor-relay/
+      <description>This post is based on Robert DeVore&amp;rsquo;s &amp;ldquo;Run a Tor relay&amp;rdquo; found here: https://www.robertdevore.com/run-a-tor-relay/
  Tor is a service used by thousands of people everyday to access the internet safely and anonymously.
 While I have been using Tor for quite some time, it always seemed daunting to help the Tor network by running a relay. Horror stories about getting mail from ISPs relating to the traffic of anonymous users accessing illegal materials masked by your IP.</description>
     </item>
