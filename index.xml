@@ -5,16 +5,92 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2021</rights>
-    <updated>2021-01-26 15:58:22 -0500 EST</updated>
+    <updated>2021-01-31 03:23:22 -0500 EST</updated>
 
     
       <item>
-        <title>My First Post</title>
-        <link>https://franklinliang.github.io/posts/my-first-post/</link>
-        <pubDate>Tue, 26 Jan 2021 15:58:22 EST</pubDate>
+        <title>How to run a Tor relay as a student for free</title>
+        <link>https://franklinliang.github.io/posts/how-to-run-a-tor-relay-as-a-student-for-free/</link>
+        <pubDate>Sun, 31 Jan 2021 03:23:22 EST</pubDate>
         <author></author>
-        <guid>https://franklinliang.github.io/posts/my-first-post/</guid>
-        <description></description>
+        <guid>https://franklinliang.github.io/posts/how-to-run-a-tor-relay-as-a-student-for-free/</guid>
+        <description>&lt;h1 id=&#34;how-to-run-a-tor-relay-as-a-student-for-free&#34;&gt;How to run a Tor relay as a student for free&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This post is based on Robert DeVore&amp;rsquo;s &amp;ldquo;Run a Tor relay&amp;rdquo; found here:
+&lt;a href=&#34;https://www.robertdevore.com/run-a-tor-relay/&#34;&gt;https://www.robertdevore.com/run-a-tor-relay/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Tor is a service used by thousands of people everyday to access the internet safely and anonymously.&lt;/p&gt;
+&lt;p&gt;While I have been using Tor for quite some time, it always seemed daunting to help the Tor network by running a relay. Horror stories about getting mail from ISPs relating to the traffic of anonymous users accessing illegal materials masked by your IP.&lt;/p&gt;
+&lt;p&gt;This is a common misconception that just by running a relay, you run the risk of being targeted by authorities.&lt;/p&gt;
+&lt;h1 id=&#34;types-of-tor-relays&#34;&gt;Types of Tor relays&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Parts of this are abridged from the EFF&amp;rsquo;s page on Tor relays:
+&lt;a href=&#34;https://www.eff.org/pages/what-tor-relay&#34;&gt;https://www.eff.org/pages/what-tor-relay&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;There are three different types of Tor relays: middle relays, exit relays, and brides. Each serve an important purpose, however the risk associated with running each type of relay is different.&lt;/p&gt;
+&lt;p&gt;When a connection is established using Tor, the first two hops are through middle relays. These middle relays help anonymize the the traffic of the user by passing it along to another relay. However, since these relays are not passing traffic into the clearnet, there is very little risk in running a middle relay. The main risk falls upon someone operating an exit relay.&lt;/p&gt;
+&lt;p&gt;Exit relays act as the source of the traffic, thus when illegal materials are accessed using Tor, the exit relay appears as the source of the request. Exit relays are much harder to operate due to the work required to maintain the relay as it may attract attention from law enforcement agencies.&lt;/p&gt;
+&lt;p&gt;Bridges are similar to middle relays, however they are not publicly listed as a relay. These relays are important to circumvent censorship tools in countries that restrict access to Tor.&lt;/p&gt;
+&lt;p&gt;In this guide I will demonstrate how to setup a &lt;strong&gt;middle relay&lt;/strong&gt;.&lt;/p&gt;
+&lt;h1 id=&#34;accessing-the-github-student-pack&#34;&gt;Accessing the Github Student Pack&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If you are not a student, you can skip this portion, however you will have to pay to setup the server that the relay operates from.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Since 2013, Github has provided students with a Student Developer Pack. This amazing program allows for students that sign up for Github with a student email to receive a plethora of free services and software.&lt;/p&gt;
+&lt;p&gt;All you need to do is navigate to: &lt;a href=&#34;https://education.github.com/pack&#34;&gt;https://education.github.com/pack&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Follow the instructions on the site to get access to your free pack. After this, you want to find the DigitalOcean free credit offer.&lt;/p&gt;
+&lt;p&gt;Copy and redeem the code on DigitalOcean&amp;rsquo;s billing page after creating an account.&lt;/p&gt;
+&lt;h1 id=&#34;creating-the-droplet&#34;&gt;Creating the Droplet&lt;/h1&gt;
+&lt;p&gt;Once you&amp;rsquo;ve created your account DigitalOcean will provide you with some options to jumpstart a project. We will ignore this and instead navigate towards the Create Droplet button. You will be taken to a page that provides you with some options for configuring your Droplet.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Droplets are just what DigitalOcean calls their machines&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;Name your Droplet&lt;/li&gt;
+&lt;li&gt;Select the $5/month option&lt;/li&gt;
+&lt;li&gt;Select the New York #3 Region&lt;/li&gt;
+&lt;li&gt;Select Debian 10.0 x64 for the Droplet Image&lt;/li&gt;
+&lt;li&gt;Setup a password or SSH key as the login method (I suggest using an SSH key)&lt;/li&gt;
+&lt;li&gt;Finish creating the Droplet&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;At this point you should be all done setting up the Droplet!&lt;/p&gt;
+&lt;h1 id=&#34;turning-the-droplet-into-a-tor-relay&#34;&gt;Turning the Droplet into a Tor Relay&lt;/h1&gt;
+&lt;p&gt;The next step is to SSH into the Droplet using an SSH client if you are on Windows or just from the command line if you are using Linux. (Or if you are using WSL then you fall under both categories. I will write another blog post about how to get setup with WSL and all the things I love about it some other time.)&lt;/p&gt;
+&lt;p&gt;Grab the IP address of the Droplet you&amp;rsquo;ve just created and try to login as &lt;code&gt;root&lt;/code&gt;. If you have created a password, then you should be prompted to enter that. If you are using an SSH key then you should see some messages that ask you to enter Y/N, just enter Y to continue.&lt;/p&gt;
+&lt;p&gt;Now we will install Tor and Arm onto this server by typing in:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apt-get install tor tor-arm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It will prompt you again to confirm by entering Y/N, enter Y to continue.&lt;/p&gt;
+&lt;p&gt;Next we will need to edit some lines in the torrc file, type in:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nano /etc/tor/torrc
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will open the nano editor which allows you to edit the torrc file. Using arrow keys to scroll up and down in this file until you come across the following lines. These lines will be preceded by the # symbol. You will need to remove the # symbol and edit the lines to match the following input. These lines are not grouped together in the torrc file, however I assure you they are all present.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ORPort 443
+Exitpolicy reject &lt;em&gt;.&lt;/em&gt;
+Nickname [Pick a nickname for your relay]
+ContactInfo [email at provider dot com]
+Log notice file /var/log/tor/notices.log
+RelayBandwidthRate 1024 KB
+RelayBandwithBurst 1024 KB&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Note that the ContactInfo email needs to be obfuscated a little. This is because this email will be publicly listed. Consider making a burner email specifically for this relay as you will not want spam arriving in your daily inbox.&lt;/p&gt;
+&lt;p&gt;Save and exit the file by pressing Ctrl X then following the prompt at the bottom of the screen.&lt;/p&gt;
+&lt;p&gt;Next run the command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;service tor restart
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will save the implement the changes you&amp;rsquo;ve made to the torrc file.&lt;/p&gt;
+&lt;p&gt;Finally, run:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo -u debian-tor nyx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If there have been no issues up until now, you should see some nice readouts showing you traffic coming into your brand new Tor relay.&lt;/p&gt;
+&lt;p&gt;For the first few days your relay will receive reduced traffic due to the network taking some time to trust new relays.&lt;/p&gt;
+&lt;p&gt;As a final step to ensure the relay is running you can check the &lt;a href=&#34;https://metrics.torproject.org/rs.html&#34;&gt;list&lt;/a&gt; of Tor relays and search for your Tor relay&amp;rsquo;s nickname to see if it has been listed and check it&amp;rsquo;s trust status.&lt;/p&gt;
+&lt;h1 id=&#34;closing-notes&#34;&gt;Closing notes&lt;/h1&gt;
+&lt;p&gt;While this guide is mostly beginner friendly, some elements such as setting up SSH keys might not be. I encourage the reader to search a little bit to find out how to configure these things. Most of my work up until now has shown me that almost everything you want to know is out there, you just have to find it.&lt;/p&gt;
+&lt;p&gt;Big thank you to Robert DeVore&amp;rsquo;s original article that I based most of this post on. Most of his steps are still perfectly fine, however there were a few things that I wanted to clarify for users which spawned this post (along with the idea that students can essentially host a relay for free).&lt;/p&gt;
+&lt;p&gt;If there is anything you didn&amp;rsquo;t understand about this please feel free to contact me.&lt;/p&gt;
+</description>
       </item>
     
 
