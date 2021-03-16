@@ -5,8 +5,64 @@
     <language>en-us</language>
     <author>Franklin Liang</author>
     <rights>(C) 2021</rights>
-    <updated>2021-01-31 03:23:22 -0500 EST</updated>
+    <updated>2021-03-12 19:34:10 -0500 EST</updated>
 
+    
+      <item>
+        <title>First Person AHK</title>
+        <link>https://franklinliang.github.io/posts/first-person-ahk/</link>
+        <pubDate>Fri, 12 Mar 2021 19:34:10 EST</pubDate>
+        <author>Franklin Liang</author>
+        <guid>https://franklinliang.github.io/posts/first-person-ahk/</guid>
+        <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;The first time I had ever used AHK was back in highschool. My friend made a Discord bot called &amp;ldquo;Starmine&amp;rdquo; that would give out points whenever a user typed !starmine.&lt;/p&gt;
+&lt;p&gt;It was a fun incremental/idle game that we all played, and while you could wait for the passive point generation, the fastest way to get points was to type  !starmine.&lt;/p&gt;
+&lt;p&gt;The game got really competitive and as we went into the summer months and I needed a way to edge out the competition.&lt;/p&gt;
+&lt;p&gt;Enter AHK.&lt;/p&gt;
+&lt;p&gt;A few minutes of searching yielded this language that was easy to use for a programming beginner (me).&lt;/p&gt;
+&lt;p&gt;Back in 2017, the wiki for AHK was a little lacking in detail but I was able to piece together a simple script, with some help from reddit, which automated the Starmine game. Success!&lt;/p&gt;
+&lt;h1 id=&#34;elite-afk&#34;&gt;Elite: AFK&lt;/h1&gt;
+&lt;p&gt;Fast forward to Christmas 2020, more than three years since I last touched AHK. My friend introduced me to a game called Elite: Dangerous, a mind numbing MMO that I have developed a love-hate relationship with in my three months of experience.&lt;/p&gt;
+&lt;p&gt;Within this game there are several unfun gameplay loops that you need to master in order to progress to the more fun portions of the game. One of these loops is gathering engineering materials.&lt;/p&gt;
+&lt;p&gt;Smart players figured out the most efficient way to gather each type of material and compiled it into a spreadsheet.&lt;/p&gt;
+&lt;p&gt;There within lies the dreaded Jameson&amp;rsquo;s Crashed Python. This method of collecting encoded data requires the player to point and click three beacons around the player, and then log out and log back in to reset the beacons.&lt;/p&gt;
+&lt;p&gt;This is not gameplay. I don&amp;rsquo;t know what this is, but it is definitely not gameplay.&lt;/p&gt;
+&lt;p&gt;My friend had been playing this game for five years and has done this task hundreds of times. So I dusted off AHK and got to work.&lt;/p&gt;
+&lt;p&gt;I couldn&amp;rsquo;t recognize the AHK docs the first time I opened them up. They were so neatly organized, the style was much better and it was apparent that a lot of effort went into making examples.&lt;/p&gt;
+&lt;h1 id=&#34;planning-the-script&#34;&gt;Planning the script&lt;/h1&gt;
+&lt;p&gt;From the get-go I scoped out some issues I knew would suck.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;How do I pan the camera&lt;/li&gt;
+&lt;li&gt;How do I deal with loading screens&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Everything else could be accomplished with sequential keypresses.&lt;/p&gt;
+&lt;h1 id=&#34;panning-the-camera&#34;&gt;Panning the camera&lt;/h1&gt;
+&lt;p&gt;AHK has the ability to move a cursor to a specific point on the screen using the &lt;code&gt;MouseMove&lt;/code&gt; function. However, this doesn&amp;rsquo;t work in first person games.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://franklinliang.github.io/static/assets/First-Person-AHK/MouseMove.jpg&#34; alt=&#34;MouseMove&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You can&amp;rsquo;t move the mouse to a point further than the edge of the screen. I needed a way to move the mouse in a direction instead of to a point.&lt;/p&gt;
+&lt;p&gt;After searching the AHK forums, I stumbled upon a library called LLMouse written by evilC.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.autohotkey.com/boards/viewtopic.php?f=19&amp;amp;t=26137&#34;&gt;https://www.autohotkey.com/boards/viewtopic.php?f=19&amp;amp;t=26137&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A copy of the library can be found &lt;a href=&#34;https://franklinliang.github.io/static/assets/First-Person-AHK/LLMouse.ahk&#34;&gt;here&lt;/a&gt; (fetched December 2020)&lt;/p&gt;
+&lt;p&gt;The description says, &amp;ldquo;a library to send low level mouse input&amp;rdquo;. The library comes with a function &lt;code&gt;LLMouse.Move(x, y, times, rate)&lt;/code&gt; which lets us move the mouse some number of units in a direction. It also lets us specify the speed and multiplier for movement.&lt;/p&gt;
+&lt;p&gt;Perfect, now we can pan the camera by sending relative movement input. Even if the mouse hits the side of the screen, we can continue to move the mouse.&lt;/p&gt;
+&lt;h1 id=&#34;loading-screens&#34;&gt;Loading screens&lt;/h1&gt;
+&lt;p&gt;The other parts of the script can be timed or done sequentially. Loading screens are a different issue as the time it takes to get through the loading screen varies from computer to computer.&lt;/p&gt;
+&lt;p&gt;Looking through the AHK wiki, I found a function called &lt;code&gt;PixelGetColor&lt;/code&gt; which allows AHK to obtain the color of a specified pixel.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://franklinliang.github.io/static/assets/First-Person-AHK/Loading1.jpg&#34; alt=&#34;First Loading Screen&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The first loading screen is between exiting the game and entering the main menu. The program looks for a light blue pixel that should remain the same across all game versions.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://franklinliang.github.io/static/assets/First-Person-AHK/Loading2.jpg&#34; alt=&#34;Second Loading Screen&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The next loading screen is between the main menu and entering the game. The program looks for when the black color of the loading screen stop showing up. I didn&amp;rsquo;t pick a color that appears on screen after the loading finishes because different ships have varying colors and users can customize the HUD colors.&lt;/p&gt;
+&lt;h1 id=&#34;all-done-sort-of&#34;&gt;All done! Sort of&amp;hellip;&lt;/h1&gt;
+&lt;p&gt;The code was pretty simple to work out but there are still many things to improve. The script only works for 1980x1080 resolution since the camera movements are hard-coded. I believe that I could calculate the ratio of movement required to move from one beacon to the next, meaning that a user would only have to modify one parameter to adjust the overall camera movement.&lt;/p&gt;
+&lt;p&gt;The biggest issue is the reliability of the SRV positioning. I have a screenshot in the repo for the script but it is still unreliable.&lt;/p&gt;
+&lt;p&gt;There was a bug where the exit script button doesn&amp;rsquo;t work sometimes. I&amp;rsquo;m not actually sure what the issue with that is, I would love it if someone would let me know.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;notes&#34;&gt;Notes&lt;/h3&gt;
+&lt;p&gt;This entire project is Matthew&amp;rsquo;s fault, and will not be maintained while I have ragequitted Elite. Feel free to make it better and fix it up yourself.&lt;/p&gt;
+</description>
+      </item>
     
       <item>
         <title>How to run a Tor relay as a student for free</title>
@@ -64,28 +120,14 @@
 &lt;pre&gt;&lt;code&gt;nano /etc/tor/torrc
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This will open the nano editor which allows you to edit the torrc file. Using arrow keys to scroll up and down in this file until you come across the following lines. These lines will be preceded by the # symbol. You will need to remove the # symbol and edit the lines to match the following input. These lines are not grouped together in the torrc file, however I assure you they are all present.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;ORPort 443&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Exitpolicy reject *.*&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Nickname [Pick a nickname for your relay]&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;ContactInfo [email at provider dot com]&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Log notice file /var/log/tor/notices.log&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;RelayBandwidthRate 1024 KB&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;RelayBandwidthBurst 1024 KB&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Note that the ContactInfo email needs to be obfuscated a little. This is because this email will be publicly listed. Consider making a burner email specifically for this relay as you will not want spam arriving in your daily inbox.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ORPort 443
+Exitpolicy reject *.*
+Nickname [Pick a nickname for your relay]
+ContactInfo [email at provider dot com]
+Log notice file /var/log/tor/notices.log
+RelayBandwidthRate 1024 KB
+RelayBandwidthBurst 1024 KB
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ContactInfo email needs to be obfuscated a little. This is because this email will be publicly listed. Consider making a burner email specifically for this relay as you will not want spam arriving in your daily inbox.&lt;/p&gt;
 &lt;p&gt;Save and exit the file by pressing Ctrl X then following the prompt at the bottom of the screen.&lt;/p&gt;
 &lt;p&gt;Next run the command:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;service tor restart

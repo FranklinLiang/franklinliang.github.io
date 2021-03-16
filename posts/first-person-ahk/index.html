@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      First Person AHK &middot; idkhtblog
+    
+  </title>
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>
+      Collection of ideas. Powered by <a href="https://gohugo.io/getting-started/quick-start/">Hugo</a>, theme based on <a href="https://lanyon.getpoole.com/">Lanyon</a>.
+    </p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item " href="/">Home</a>
+    <a class="sidebar-nav-item " href="/posts">Posts</a>
+    <a class="sidebar-nav-item " href="/about">About</a>
+    </nav>
+
+  <div class="sidebar-item">
+    <p>&copy; 2021. All rights reserved.</p>
+  </div>
+</div>
+
+
+    
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">idkhtblog</a>
+            <small>I don&#39;t know how to blog</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+
+
+<div class="post">
+  <h1 class="post-title">First Person AHK</h1>
+  <span class="post-date">Mar 12, 2021</span>
+  <h1 id="introduction">Introduction</h1>
+<p>The first time I had ever used AHK was back in highschool. My friend made a Discord bot called &ldquo;Starmine&rdquo; that would give out points whenever a user typed !starmine.</p>
+<p>It was a fun incremental/idle game that we all played, and while you could wait for the passive point generation, the fastest way to get points was to type  !starmine.</p>
+<p>The game got really competitive and as we went into the summer months and I needed a way to edge out the competition.</p>
+<p>Enter AHK.</p>
+<p>A few minutes of searching yielded this language that was easy to use for a programming beginner (me).</p>
+<p>Back in 2017, the wiki for AHK was a little lacking in detail but I was able to piece together a simple script, with some help from reddit, which automated the Starmine game. Success!</p>
+<h1 id="elite-afk">Elite: AFK</h1>
+<p>Fast forward to Christmas 2020, more than three years since I last touched AHK. My friend introduced me to a game called Elite: Dangerous, a mind numbing MMO that I have developed a love-hate relationship with in my three months of experience.</p>
+<p>Within this game there are several unfun gameplay loops that you need to master in order to progress to the more fun portions of the game. One of these loops is gathering engineering materials.</p>
+<p>Smart players figured out the most efficient way to gather each type of material and compiled it into a spreadsheet.</p>
+<p>There within lies the dreaded Jameson&rsquo;s Crashed Python. This method of collecting encoded data requires the player to point and click three beacons around the player, and then log out and log back in to reset the beacons.</p>
+<p>This is not gameplay. I don&rsquo;t know what this is, but it is definitely not gameplay.</p>
+<p>My friend had been playing this game for five years and has done this task hundreds of times. So I dusted off AHK and got to work.</p>
+<p>I couldn&rsquo;t recognize the AHK docs the first time I opened them up. They were so neatly organized, the style was much better and it was apparent that a lot of effort went into making examples.</p>
+<h1 id="planning-the-script">Planning the script</h1>
+<p>From the get-go I scoped out some issues I knew would suck.</p>
+<ol>
+<li>How do I pan the camera</li>
+<li>How do I deal with loading screens</li>
+</ol>
+<p>Everything else could be accomplished with sequential keypresses.</p>
+<h1 id="panning-the-camera">Panning the camera</h1>
+<p>AHK has the ability to move a cursor to a specific point on the screen using the <code>MouseMove</code> function. However, this doesn&rsquo;t work in first person games.</p>
+<p><img src="/static/assets/First-Person-AHK/MouseMove.jpg" alt="MouseMove"></p>
+<p>You can&rsquo;t move the mouse to a point further than the edge of the screen. I needed a way to move the mouse in a direction instead of to a point.</p>
+<p>After searching the AHK forums, I stumbled upon a library called LLMouse written by evilC.</p>
+<blockquote>
+<p><a href="https://www.autohotkey.com/boards/viewtopic.php?f=19&amp;t=26137">https://www.autohotkey.com/boards/viewtopic.php?f=19&amp;t=26137</a></p>
+</blockquote>
+<p>A copy of the library can be found <a href="/static/assets/First-Person-AHK/LLMouse.ahk">here</a> (fetched December 2020)</p>
+<p>The description says, &ldquo;a library to send low level mouse input&rdquo;. The library comes with a function <code>LLMouse.Move(x, y, times, rate)</code> which lets us move the mouse some number of units in a direction. It also lets us specify the speed and multiplier for movement.</p>
+<p>Perfect, now we can pan the camera by sending relative movement input. Even if the mouse hits the side of the screen, we can continue to move the mouse.</p>
+<h1 id="loading-screens">Loading screens</h1>
+<p>The other parts of the script can be timed or done sequentially. Loading screens are a different issue as the time it takes to get through the loading screen varies from computer to computer.</p>
+<p>Looking through the AHK wiki, I found a function called <code>PixelGetColor</code> which allows AHK to obtain the color of a specified pixel.</p>
+<p><img src="/static/assets/First-Person-AHK/Loading1.jpg" alt="First Loading Screen"></p>
+<p>The first loading screen is between exiting the game and entering the main menu. The program looks for a light blue pixel that should remain the same across all game versions.</p>
+<p><img src="/static/assets/First-Person-AHK/Loading2.jpg" alt="Second Loading Screen"></p>
+<p>The next loading screen is between the main menu and entering the game. The program looks for when the black color of the loading screen stop showing up. I didn&rsquo;t pick a color that appears on screen after the loading finishes because different ships have varying colors and users can customize the HUD colors.</p>
+<h1 id="all-done-sort-of">All done! Sort of&hellip;</h1>
+<p>The code was pretty simple to work out but there are still many things to improve. The script only works for 1980x1080 resolution since the camera movements are hard-coded. I believe that I could calculate the ratio of movement required to move from one beacon to the next, meaning that a user would only have to modify one parameter to adjust the overall camera movement.</p>
+<p>The biggest issue is the reliability of the SRV positioning. I have a screenshot in the repo for the script but it is still unreliable.</p>
+<p>There was a bug where the exit script button doesn&rsquo;t work sometimes. I&rsquo;m not actually sure what the issue with that is, I would love it if someone would let me know.</p>
+<hr>
+<h3 id="notes">Notes</h3>
+<p>This entire project is Matthew&rsquo;s fault, and will not be maintained while I have ragequitted Elite. Feel free to make it better and fix it up yourself.</p>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    
+  </body>
+</html>
+
