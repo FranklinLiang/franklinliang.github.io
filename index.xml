@@ -58,6 +58,7 @@
 &lt;p&gt;The code was pretty simple to work out but there are still many things to improve. The script only works for 1980x1080 resolution since the camera movements are hard-coded. I believe that I could calculate the ratio of movement required to move from one beacon to the next, meaning that a user would only have to modify one parameter to adjust the overall camera movement.&lt;/p&gt;
 &lt;p&gt;The biggest issue is the reliability of the SRV positioning. I have a screenshot in the repo for the script but it is still unreliable.&lt;/p&gt;
 &lt;p&gt;There was a bug where the exit script button doesn&amp;rsquo;t work sometimes. I&amp;rsquo;m not actually sure what the issue with that is, I would love it if someone would let me know.&lt;/p&gt;
+&lt;p&gt;The repo can be found &lt;a href=&#34;https://github.com/FranklinLiang/Jameson&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3 id=&#34;notes&#34;&gt;Notes&lt;/h3&gt;
 &lt;p&gt;This entire project is Matthew&amp;rsquo;s fault, and will not be maintained while I have ragequitted Elite. Feel free to make it better and fix it up yourself.&lt;/p&gt;
