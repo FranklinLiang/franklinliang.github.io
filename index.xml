@@ -83,7 +83,7 @@
 &lt;p&gt;Parts of this are abridged from the EFF&amp;rsquo;s page on Tor relays:
 &lt;a href=&#34;https://www.eff.org/pages/what-tor-relay&#34;&gt;https://www.eff.org/pages/what-tor-relay&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;There are three different types of Tor relays: middle relays, exit relays, and brides. Each serve an important purpose, however the risk associated with running each type of relay is different.&lt;/p&gt;
+&lt;p&gt;There are three different types of Tor relays: middle relays, exit relays, and bridges. Each serve an important purpose, however the risk associated with running each type of relay is different.&lt;/p&gt;
 &lt;p&gt;When a connection is established using Tor, the first two hops are through middle relays. These middle relays help anonymize the the traffic of the user by passing it along to another relay. However, since these relays are not passing traffic into the clearnet, there is very little risk in running a middle relay. The main risk falls upon someone operating an exit relay.&lt;/p&gt;
 &lt;p&gt;Exit relays act as the source of the traffic, thus when illegal materials are accessed using Tor, the exit relay appears as the source of the request. Exit relays are much harder to operate due to the work required to maintain the relay as it may attract attention from law enforcement agencies.&lt;/p&gt;
 &lt;p&gt;Bridges are similar to middle relays, however they are not publicly listed as a relay. These relays are important to circumvent censorship tools in countries that restrict access to Tor.&lt;/p&gt;
