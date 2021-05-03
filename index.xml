@@ -5,8 +5,65 @@
     <language>en-us</language>
     <author>Franklin Liang</author>
     <rights>(C) 2021</rights>
-    <updated>2021-03-12 19:34:10 -0500 EST</updated>
+    <updated>2021-05-01 21:13:37 -0400 EDT</updated>
 
+    
+      <item>
+        <title>Elliotte Friedman</title>
+        <link>https://franklinliang.github.io/posts/elliotte-friedman/</link>
+        <pubDate>Sat, 01 May 2021 21:13:37 EDT</pubDate>
+        <author>Franklin Liang</author>
+        <guid>https://franklinliang.github.io/posts/elliotte-friedman/</guid>
+        <description>&lt;h1 id=&#34;who-is-elliotte-friedman&#34;&gt;Who is Elliotte Friedman?&lt;/h1&gt;
+&lt;p&gt;This is Elliotte Friedman.&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Tonight&amp;#39;s edition of &lt;a href=&#34;https://twitter.com/scotiabank?ref_src=twsrc%5Etfw&#34;&gt;@scotiabank&lt;/a&gt; Wednesday Night Hockey begins NOW on &lt;a href=&#34;https://twitter.com/Sportsnet?ref_src=twsrc%5Etfw&#34;&gt;@Sportsnet&lt;/a&gt; -- CAL/MON&lt;/p&gt;&amp;mdash; Elliotte Friedman (@FriedgeHNIC) &lt;a href=&#34;https://twitter.com/FriedgeHNIC/status/1382461160923017218?ref_src=twsrc%5Etfw&#34;&gt;April 14, 2021&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;CAL and MON are not abbrevations. With this translator now you can make an educated guess as to what ELF is trying to say.&lt;/p&gt;
+&lt;div&gt;
+	What did Elliot Friedman say this time: &lt;input type=&#34;text&#34; id=&#34;myText&#34;&gt;
+
+    &lt;button onclick=&#34;friedman()&#34;&gt;Decipher&lt;/button&gt;
+
+    &lt;p id=&#34;result&#34;&gt;&lt;/p&gt;
+
+    &lt;script&gt;
+      function friedman() {
+        var acronym = document.getElementById(&#34;myText&#34;);
+
+        var teams = [&#34;Anaheim Ducks&#34;, &#34;Arizona Coyotes&#34;, &#34;Boston Bruins&#34;, &#34;Buffalo Sabres&#34;, &#34;Calgary Flames&#34;, &#34;Carolina Hurricanes&#34;, &#34;Chicago Blackhawks&#34;, &#34;Colorado Avalanche&#34;, &#34;Columbus Blue Jackets&#34;, &#34;Dallas Stars&#34;, &#34;Detroit Red Wings&#34;, &#34;Edmonton Oilers&#34;, &#34;Florida Panthers&#34;, &#34;Los Angeles Kings&#34;, &#34;Minnesota Wild&#34;, &#34;Montreal Canadiens&#34;, &#34;Nashville Predators&#34;, &#34;New Jersey Devils&#34;, &#34;New York Islanders&#34;, &#34;New York Rangers&#34;, &#34;Ottawa Senators&#34;, &#34;Philadelphia Flyers&#34;, &#34;Pittsburgh Penguins&#34;, &#34;San Jose Sharks&#34;, &#34;St. Louis Blues&#34;, &#34;Tampa Bay Lightning&#34;, &#34;Toronto Maple Leafs&#34;, &#34;Vancouver Canucks&#34;, &#34;Vegas Golden Knights&#34;, &#34;Washington Capitals&#34;, &#34;Winnipeg Jets&#34;];
+
+        var counter = 0;
+        var fteams = [];
+
+        for (team in teams) {
+
+        var letters = acronym.value.toUpperCase().split(&#39;&#39;);
+        var format_team = teams[team].toUpperCase().replace(&#34; &#34;,&#34;&#34;);
+
+        if (format_team[0] == letters[0]) { 
+          for (character in format_team) {
+            if (letters != []) {
+              if (format_team[character] == letters[0]) {
+                letters = letters.slice(1);
+              };
+            };
+          };
+        };
+
+        if (!letters.length) {
+          fteams.push(teams[counter]);
+        };
+
+        counter += 1;
+        };
+
+        document.getElementById(&#34;result&#34;).innerHTML = fteams.join(&#34;, &#34;);
+      };
+    &lt;/script&gt;
+&lt;/div&gt;
+</description>
+      </item>
     
       <item>
         <title>First Person AHK</title>
