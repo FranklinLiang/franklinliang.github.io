@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 May 2021 21:13:37 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 05 May 2021 03:39:06 -0400</lastBuildDate>
     
 	<atom:link href="https://franklinliang.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Homelab 1</title>
+      <link>https://franklinliang.github.io/posts/homelab-1/</link>
+      <pubDate>Wed, 05 May 2021 03:39:06 -0400</pubDate>
+      
+      <guid>https://franklinliang.github.io/posts/homelab-1/</guid>
+      <description>Why, How and What I felt incredible joy after finishing my final exam of the term following 12 months of continuous schooling. But less than 72 hours later I was already bored. I needed something to do, so I made the Friedman translator. This was a project that would normally take me weeks due to dealing with school, but I finished it in under two days. I needed a bigger project.</description>
+    </item>
     
     <item>
       <title>Elliotte Friedman</title>

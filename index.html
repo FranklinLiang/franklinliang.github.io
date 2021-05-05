@@ -74,6 +74,37 @@
 <div class="posts">
   
     <div class="post">
+        <h1 class="post-title"><a href="https://franklinliang.github.io/posts/homelab-1/">Homelab 1</a></h1>
+        <span class="post-date">May 5, 2021</span>
+        <h1 id="why-how-and-what">Why, How and What</h1>
+<p>I felt incredible joy after finishing my final exam of the term following 12 months of continuous schooling. But less than 72 hours later I was already bored. I needed something to do, so I made the Friedman translator. This was a project that would normally take me weeks due to dealing with school, but I finished it in under two days. I needed a bigger project.</p>
+<blockquote>
+<p>&ldquo;Hey I&rsquo;m picking up some furniture from the office, maybe we can get a server too.&rdquo;</p>
+</blockquote>
+<p>That&rsquo;s all I needed to hear. 6 hours of backbreaking labour later, we fit a whole office worth of furniture (plus a server) into two trips in the minivan. Now it was time to get to work.</p>
+<p>The server is a Dell R710. I did not know what a Dell R710 was at the time of taking the server and I definitely did not know how to set it up. Physically, the server is pretty big and deceptively heavy. It came with 10 gigabit ports and four drive bays. In my mind I was already fawning over the hardware. Too bad I didn&rsquo;t know what I really should have been looking for&hellip;</p>
+<h1 id="the-setup">The setup</h1>
+<p>First thing I did was search up how to configure an R710. That&rsquo;s when I found my first problem.</p>
+<p>iDRAC.</p>
+<p>Every single guide on how to setup the R710 seemed to need iDRAC. iDRAC stands for integrated Dell Remote Access Controller. This nifty port would allow me to access my R710 over a network and perform some expediated updates and put an OS on the system. The iDRAC slot on my R710 was empty. Dang.</p>
+<p>Thankfully the R710 used to be a favourite of the sub-reddit <a href="https://www.reddit.com/r/homelab/">/r/homelab</a>. I use past tense because while there is good documentation for using R710s, it is now on /r/homelab&rsquo;s no-buy list due to issues with age. Ok, fine, whatever, as long as it works I&rsquo;ll be happy. It&rsquo;s a learning experience right?</p>
+<h2 id="firmware">Firmware</h2>
+<p>I found some tips on how to update the firmware on <a href="https://www.reddit.com/r/homelab/comments/5ldiel/so_you_wantgot_an_r710/">this mega-post</a> for configuring R710s. The link to the firmware update in that post is dead, but I found another <a href="https://enterprisehomelab.blogspot.com/2020/12/dell-r710-update-iso.html">website hosting the file</a>. I then imaged the iso onto a usb and plugged it into the server. The remainder of the night was spent figuring out why the firmware update would crash. It displayed a cryptic error message that lead me down many stackoverflow rabbit holes.</p>
+<p><img src="/static/assets/homelab-1/error.jpeg" alt="Error"></p>
+<p>My saviour was a reddit post where a user had similar error messages to my own and their solution was&hellip; to image the iso to a disc. Ok I mean why not, I&rsquo;ll try this tomorrow.</p>
+<p>And it totally worked. I had to find an ancient laptop that still had a disc drive, but I imaged the iso to a DVD and voila, the server was updating firmware. The next step was to configure the hard drives.</p>
+<h2 id="raid">RAID</h2>
+<p>When we took the server it came with four hard drives inside the slots. Two were 250 GB drives and two were 160 GB drives. Alongside these, we also took two additional 250 GB drives. The plan was to swap out the 160 GB drives with the extra 250 GB drives to have ~1TB of storage.</p>
+<p>I swapped both drives out and booted up the server. I went to configure the storage and&hellip; one of the drives would not show up in the menu. It wasn&rsquo;t missing, it just refused to show up. The light on the front of the drive was also not on, so I assumed it was busted. Ok I&rsquo;ll just go with three drives for now as a test. I configured the RAID and restarted.</p>
+<p>Error messages, error messages everywhere. The drive was missing. The third drive would appear as missing every single time I restarted the server after a RAID configuration.</p>
+<p>I tried for a few hours to get the drives to work, but even if I managed to get the RAID to work through the startup, it would instantly fail when I tried to install Ubuntu. The virtual drive would not show up and instead a single 250 GB drive would be the only option.</p>
+<p>In the end I just put back the two original 160 GB drives and miraculously that was able to work. I don&rsquo;t know why the 250 GB drive would detect and then go missing. It&rsquo;s a mystery to me, but I didn&rsquo;t care. Ubuntu was telling me I had a single virtual drive, and from there it was easy street.</p>
+<h1 id="what-now">What now</h1>
+<p>I don&rsquo;t know what I&rsquo;m going to run on the server but at least it is functioning. Maybe I&rsquo;ll start a Jellyfin server or something. But that&rsquo;s for another time.</p>
+
+    </div>
+  
+    <div class="post">
         <h1 class="post-title"><a href="https://franklinliang.github.io/posts/elliotte-friedman/">Elliotte Friedman</a></h1>
         <span class="post-date">May 1, 2021</span>
         <h1 id="who-is-elliotte-friedman">Who is Elliotte Friedman?</h1>
