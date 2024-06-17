@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Homelab 2 &middot; My Thoughts
+    
+  </title>
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>
+      Collection of ideas. Powered by <a href="https://gohugo.io/getting-started/quick-start/">Hugo</a>, theme based on <a href="https://lanyon.getpoole.com/">Lanyon</a>.
+    </p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item " href="/">Home</a>
+    <a class="sidebar-nav-item " href="/posts">Posts</a>
+    <a class="sidebar-nav-item " href="/about">About</a>
+    </nav>
+
+  <div class="sidebar-item">
+    <p>&copy; 2024. All rights reserved.</p>
+  </div>
+</div>
+
+
+    
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">My Thoughts</a>
+            <small>A blog of all time</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+
+
+<div class="post">
+  <h1 class="post-title">Homelab 2</h1>
+  <span class="post-date">Jun 16, 2024</span>
+  <h1 id="hiatus">Hiatus</h1>
+<p>It&rsquo;s been a while since my last blog entry, but I had a draft of this post kicking around from October of 2021 talking about the stuff I did with the homelab (past tense I&rsquo;ll get to that). I can&rsquo;t talk about the super technical details or challenges I faced since I don&rsquo;t exactly remember what happened, but I will try my best.</p>
+<h1 id="great-things">Great things</h1>
+<p>I had great aspirations for the homelab when I first got it running. The big goal I wanted to work towards was setting up Jellyfin (or if I got lazy Plex) on the homelab so I could watch my collection of movies from any device within the house.</p>
+<p>I did not get that far.</p>
+<p>But I did manage to do some cool things with the server while it was still alive.</p>
+<h2 id="samba">Samba</h2>
+<p>I created a network share using Samba that my dad and I used to host some temp files that we wanted to share with each other and other things that we wanted to have backups of. Getting Samba configured was a bit of a challenge as sometimes the file share wouldn&rsquo;t read properly on Windows devices but the issues mainly stemmed from some improper config files.</p>
+<h2 id="lancache">Lancache</h2>
+<p>The year was 2021, and my download speed was about 40 MB on a good day. My PC only had about 1 TB of storage (only haha) so I had to offload games sometimes to make space for new ones. It&rsquo;s a crime that games can be 100 GB. Regardless, there was a solution for my problem in the form of Lancache. Lancache, as it&rsquo;s name suggests, is usually used for LAN parties where many participants might need to download the same game, but you don&rsquo;t want 10 people trying to download the same 50 GB game. So the solution is to download the game onto a single server and serve it up locally to anyone who wants to play. I decided to use this software to cache my games locally so I wouldn&rsquo;t need to re-download Grand Theft Auto 5 for the hundredth time.</p>
+<p>The year is now 2024 and my download speed is still 40 MB on a good day.</p>
+<h2 id="minecraft-server-w-ngrok">Minecraft server w/ Ngrok</h2>
+<p>My friends and I play Minecraft every once in a while and someone always needed to host it locally or purchase some hosting plan for the duration of our gameplay. I decided that with the new homelab, I could try hosting on that. To simplify the port forwarding process I used Ngrok to open a port in a relatively safe way.</p>
+<p>Now at this point I hadn&rsquo;t considered if the hardware in the server would be able to support a Minecraft server. The RAM and CPU were old, but still fairly powerful so I assumed there would be no problems.</p>
+<p>I logged in, there was a bit of lag but I assumed that was because my local network was not great. My friend logged in and he said it was playable at least. Finally a third friend logged in and the whole thing metaphorically caught fire and crashed.</p>
+<h1 id="is-it-dead">Is it dead?</h1>
+<p>Yes. If dead means unusable then yes. I&rsquo;m not sure what failed, whether it was the shoddy RAID controller that took me dozens of tries to get a single RAID 0 config to work. Or if it was the old dying RAM and CPU. Or something else entirely. But the whole system was locked in read-only mode. Numerous attempts at trying to restore the system did not work. Luckily there was nothing on that server that didn&rsquo;t have a backup so I finally pulled the plug and started a fresh install on the server once again.</p>
+<h1 id="epilogue">Epilogue</h1>
+<p>The server has been unplugged for a while, turned off while I went back to in-person university after the COVID lockdowns ended. I think I&rsquo;m gonna start it back up again. I&rsquo;m sure that in its sleep it has accumulated many problems once again, but soon it will be back up and running.</p>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    
+  </body>
+</html>
+

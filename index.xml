@@ -4,9 +4,37 @@
     <link>https://franklinliang.github.io/</link>
     <language>en-us</language>
     <author>Franklin Liang</author>
-    <rights>(C) 2021</rights>
-    <updated>2021-05-05 03:39:06 -0400 EDT</updated>
+    <rights>(C) 2024</rights>
+    <updated>2024-06-16 21:00:59 -0400 EDT</updated>
 
+    
+      <item>
+        <title>Homelab 2</title>
+        <link>https://franklinliang.github.io/posts/homelab-2/</link>
+        <pubDate>Sun, 16 Jun 2024 21:00:59 EDT</pubDate>
+        <author>Franklin Liang</author>
+        <guid>https://franklinliang.github.io/posts/homelab-2/</guid>
+        <description>&lt;h1 id=&#34;hiatus&#34;&gt;Hiatus&lt;/h1&gt;
+&lt;p&gt;It&amp;rsquo;s been a while since my last blog entry, but I had a draft of this post kicking around from October of 2021 talking about the stuff I did with the homelab (past tense I&amp;rsquo;ll get to that). I can&amp;rsquo;t talk about the super technical details or challenges I faced since I don&amp;rsquo;t exactly remember what happened, but I will try my best.&lt;/p&gt;
+&lt;h1 id=&#34;great-things&#34;&gt;Great things&lt;/h1&gt;
+&lt;p&gt;I had great aspirations for the homelab when I first got it running. The big goal I wanted to work towards was setting up Jellyfin (or if I got lazy Plex) on the homelab so I could watch my collection of movies from any device within the house.&lt;/p&gt;
+&lt;p&gt;I did not get that far.&lt;/p&gt;
+&lt;p&gt;But I did manage to do some cool things with the server while it was still alive.&lt;/p&gt;
+&lt;h2 id=&#34;samba&#34;&gt;Samba&lt;/h2&gt;
+&lt;p&gt;I created a network share using Samba that my dad and I used to host some temp files that we wanted to share with each other and other things that we wanted to have backups of. Getting Samba configured was a bit of a challenge as sometimes the file share wouldn&amp;rsquo;t read properly on Windows devices but the issues mainly stemmed from some improper config files.&lt;/p&gt;
+&lt;h2 id=&#34;lancache&#34;&gt;Lancache&lt;/h2&gt;
+&lt;p&gt;The year was 2021, and my download speed was about 40 MB on a good day. My PC only had about 1 TB of storage (only haha) so I had to offload games sometimes to make space for new ones. It&amp;rsquo;s a crime that games can be 100 GB. Regardless, there was a solution for my problem in the form of Lancache. Lancache, as it&amp;rsquo;s name suggests, is usually used for LAN parties where many participants might need to download the same game, but you don&amp;rsquo;t want 10 people trying to download the same 50 GB game. So the solution is to download the game onto a single server and serve it up locally to anyone who wants to play. I decided to use this software to cache my games locally so I wouldn&amp;rsquo;t need to re-download Grand Theft Auto 5 for the hundredth time.&lt;/p&gt;
+&lt;p&gt;The year is now 2024 and my download speed is still 40 MB on a good day.&lt;/p&gt;
+&lt;h2 id=&#34;minecraft-server-w-ngrok&#34;&gt;Minecraft server w/ Ngrok&lt;/h2&gt;
+&lt;p&gt;My friends and I play Minecraft every once in a while and someone always needed to host it locally or purchase some hosting plan for the duration of our gameplay. I decided that with the new homelab, I could try hosting on that. To simplify the port forwarding process I used Ngrok to open a port in a relatively safe way.&lt;/p&gt;
+&lt;p&gt;Now at this point I hadn&amp;rsquo;t considered if the hardware in the server would be able to support a Minecraft server. The RAM and CPU were old, but still fairly powerful so I assumed there would be no problems.&lt;/p&gt;
+&lt;p&gt;I logged in, there was a bit of lag but I assumed that was because my local network was not great. My friend logged in and he said it was playable at least. Finally a third friend logged in and the whole thing metaphorically caught fire and crashed.&lt;/p&gt;
+&lt;h1 id=&#34;is-it-dead&#34;&gt;Is it dead?&lt;/h1&gt;
+&lt;p&gt;Yes. If dead means unusable then yes. I&amp;rsquo;m not sure what failed, whether it was the shoddy RAID controller that took me dozens of tries to get a single RAID 0 config to work. Or if it was the old dying RAM and CPU. Or something else entirely. But the whole system was locked in read-only mode. Numerous attempts at trying to restore the system did not work. Luckily there was nothing on that server that didn&amp;rsquo;t have a backup so I finally pulled the plug and started a fresh install on the server once again.&lt;/p&gt;
+&lt;h1 id=&#34;epilogue&#34;&gt;Epilogue&lt;/h1&gt;
+&lt;p&gt;The server has been unplugged for a while, turned off while I went back to in-person university after the COVID lockdowns ended. I think I&amp;rsquo;m gonna start it back up again. I&amp;rsquo;m sure that in its sleep it has accumulated many problems once again, but soon it will be back up and running.&lt;/p&gt;
+</description>
+      </item>
     
       <item>
         <title>Homelab 1</title>
@@ -50,9 +78,10 @@
         <guid>https://franklinliang.github.io/posts/elliotte-friedman/</guid>
         <description>&lt;h1 id=&#34;who-is-elliotte-friedman&#34;&gt;Who is Elliotte Friedman?&lt;/h1&gt;
 &lt;p&gt;This is Elliotte Friedman.&lt;/p&gt;
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Tonight&amp;#39;s edition of &lt;a href=&#34;https://twitter.com/scotiabank?ref_src=twsrc%5Etfw&#34;&gt;@scotiabank&lt;/a&gt; Wednesday Night Hockey begins NOW on &lt;a href=&#34;https://twitter.com/Sportsnet?ref_src=twsrc%5Etfw&#34;&gt;@Sportsnet&lt;/a&gt; -- CAL/MON&lt;/p&gt;&amp;mdash; Elliotte Friedman (@FriedgeHNIC) &lt;a href=&#34;https://twitter.com/FriedgeHNIC/status/1382461160923017218?ref_src=twsrc%5Etfw&#34;&gt;April 14, 2021&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-
+&lt;blockquote&gt;
+&lt;p&gt;This tweet has since been deleted, here is a saved screenshot&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://franklinliang.github.io/static/assets/Elliotte-Friedman/Tweet.png&#34; alt=&#34;Tweet&#34;&gt;&lt;/p&gt;
 &lt;p&gt;CAL and MON are not abbreviations. With this translator now you can make an educated guess as to what ELF is trying to say.&lt;/p&gt;
 &lt;div&gt;
 	What did Elliot Friedman say this time: &lt;input type=&#34;text&#34; id=&#34;myText&#34;&gt;
