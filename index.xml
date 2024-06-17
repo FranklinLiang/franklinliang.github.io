@@ -15,9 +15,9 @@
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/homelab-2/</guid>
         <description>&lt;h1 id=&#34;hiatus&#34;&gt;Hiatus&lt;/h1&gt;
-&lt;p&gt;It&amp;rsquo;s been a while since my last blog entry, but I had a draft of this post kicking around from October of 2021 talking about the stuff I did with the homelab (past tense I&amp;rsquo;ll get to that). I can&amp;rsquo;t talk about the super technical details or challenges I faced since I don&amp;rsquo;t exactly remember what happened, but I will try my best.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s been a while since my last blog entry, but I had a draft of this post kicking around from October of 2021 talking about the stuff I did with the homelab (past tense, I&amp;rsquo;ll get to that). I can&amp;rsquo;t talk about the super technical details or challenges I faced since I don&amp;rsquo;t exactly remember what happened, but I will try my best.&lt;/p&gt;
 &lt;h1 id=&#34;great-things&#34;&gt;Great things&lt;/h1&gt;
-&lt;p&gt;I had great aspirations for the homelab when I first got it running. The big goal I wanted to work towards was setting up Jellyfin (or if I got lazy Plex) on the homelab so I could watch my collection of movies from any device within the house.&lt;/p&gt;
+&lt;p&gt;I had great aspirations for the homelab when I first got it running. The big goal I wanted to work towards was setting up Jellyfin (or if I got lazy, Plex) on the homelab so I could watch my collection of movies from any device within the house.&lt;/p&gt;
 &lt;p&gt;I did not get that far.&lt;/p&gt;
 &lt;p&gt;But I did manage to do some cool things with the server while it was still alive.&lt;/p&gt;
 &lt;h2 id=&#34;samba&#34;&gt;Samba&lt;/h2&gt;
