@@ -5,8 +5,64 @@
     <language>en-us</language>
     <author>Franklin Liang</author>
     <rights>(C) 2024</rights>
-    <updated>2024-06-18 03:15:10 -0400 EDT</updated>
+    <updated>2024-06-22 04:51:25 -0400 EDT</updated>
 
+    
+      <item>
+        <title>Runtimes 1</title>
+        <link>https://franklinliang.github.io/posts/runtimes-1/</link>
+        <pubDate>Sat, 22 Jun 2024 04:51:25 EDT</pubDate>
+        <author>Franklin Liang</author>
+        <guid>https://franklinliang.github.io/posts/runtimes-1/</guid>
+        <description>&lt;h1 id=&#34;so-ive-been-doing-a-lot-of-dsa-questions&#34;&gt;So I&amp;rsquo;ve been doing a lot of DSA questions&lt;/h1&gt;
+&lt;p&gt;In preparation for coding interviews I&amp;rsquo;ve been studying a lot of data structures and algorithms problems. The main goal when solving these problems is to work out a solution that has low time and space complexity. However when you submit questions on a online judge such as Leetcode, you tend to notice that some minor changes in your code, such as the order or way you write out if statements, can impact your runtime through the judge. Most of the time, this is not useful information. The judge will give you different runtimes for the exact same code, that&amp;rsquo;s just how timing code works, some runs will be faster than others. But deep down I always wondered, if you broke it down to the  bytecode, would there be a noticeable difference between some lines of code that don&amp;rsquo;t seem very different at a high level?&lt;/p&gt;
+&lt;h2 id=&#34;combo-inequality-vs-two-inequalities-combined-with-an-and-operator&#34;&gt;Combo inequality vs two inequalities combined with an and operator&lt;/h2&gt;
+&lt;h3 id=&#34;x--y--z-text-vs--x--y-wedge-y--z&#34;&gt;$x &amp;lt; y &amp;lt; z \text{ vs } x &amp;lt; y \wedge y &amp;lt; z$&lt;/h3&gt;
+&lt;p&gt;At a high level, these are the same. But when we use &lt;a href=&#34;godbolt.com&#34;&gt;Godbolt&lt;/a&gt; to dive deeper and look at the bytecode, we will see that there are some differences.&lt;/p&gt;
+&lt;p&gt;For the first case, $x &amp;lt; y &amp;lt; z$, we can represent it with the following code snippet:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;compare&lt;/span&gt;(target, lower, upper):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; lower &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; upper:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; True
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The second case, $x &amp;lt; y \wedge y &amp;lt; x$:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;compare&lt;/span&gt;(target, lower, upper):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; lower &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; upper:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; True
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now we look at the bytecode for the first case:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; 2 LOAD_FAST                1 (lower)
+ 4 LOAD_FAST                0 (target)
+ 6 SWAP                     2
+ 8 COPY                     2
+10 COMPARE_OP               2 (&amp;lt;)
+14 POP_JUMP_IF_FALSE        5 (to 26)
+16 LOAD_FAST                2 (upper)
+18 COMPARE_OP               2 (&amp;lt;)
+22 POP_JUMP_IF_FALSE        3 (to 30)
+
+24 RETURN_CONST             1 (True)
+
+26 POP_TOP
+28 RETURN_CONST             0 (None)
+30 RETURN_CONST             0 (None)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And the bytecode for the second case:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; 2 LOAD_FAST                1 (lower)
+ 4 LOAD_FAST                0 (target)
+ 6 COMPARE_OP               2 (&amp;lt;)
+10 POP_JUMP_IF_FALSE        7 (to 26)
+12 LOAD_FAST                0 (target)
+14 LOAD_FAST                2 (upper)
+16 COMPARE_OP               2 (&amp;lt;)
+20 POP_JUMP_IF_FALSE        1 (to 24)
+
+22 RETURN_CONST             1 (True)
+
+24 RETURN_CONST             0 (None)
+26 RETURN_CONST             0 (None)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The first thing that jumps out are the extra &lt;code&gt;SWAP&lt;/code&gt; and &lt;code&gt;COPY&lt;/code&gt; instructions in the first case. To compensate for not having two occurrences of the &lt;code&gt;target&lt;/code&gt; parameter, the code will make a copy of &lt;code&gt;target&lt;/code&gt; to use in the &lt;code&gt;18 COMPARE_OP&lt;/code&gt; instruction.&lt;/p&gt;
+&lt;p&gt;Because of the extra &lt;code&gt;SWAP&lt;/code&gt; and &lt;code&gt;COPY&lt;/code&gt; instructions, the first &lt;code&gt;COMPARE_OP&lt;/code&gt; and &lt;code&gt;POP_JUMP_IF_FALSE&lt;/code&gt; instructions occur earlier in the second case than the first case.&lt;/p&gt;
+&lt;p&gt;In essence, the &lt;code&gt;AND&lt;/code&gt; operator doesn&amp;rsquo;t make any extra work for the virtual machine, but omitting a second &lt;code&gt;target&lt;/code&gt; in the python code does as the virtual machine needs to make a copy of it for the comparison operation.&lt;/p&gt;
+&lt;p&gt;The actual runtime trade off is negligible when running &lt;code&gt;timeit&lt;/code&gt;, it&amp;rsquo;s random which one of the two code samples executes faster. For conceptual simplicity, I&amp;rsquo;ll stick to writing these types of statements with the combo operator, but it&amp;rsquo;s interesting to know that it makes just a tiny bit more work for the virtual machine.&lt;/p&gt;
+</description>
+      </item>
     
       <item>
         <title>Homelab 2</title>

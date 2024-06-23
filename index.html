@@ -75,6 +75,59 @@
 <div class="posts">
   
     <div class="post">
+        <h1 class="post-title"><a href="https://franklinliang.github.io/posts/runtimes-1/">Runtimes 1</a></h1>
+        <span class="post-date">Jun 22, 2024</span>
+        <h1 id="so-ive-been-doing-a-lot-of-dsa-questions">So I&rsquo;ve been doing a lot of DSA questions</h1>
+<p>In preparation for coding interviews I&rsquo;ve been studying a lot of data structures and algorithms problems. The main goal when solving these problems is to work out a solution that has low time and space complexity. However when you submit questions on a online judge such as Leetcode, you tend to notice that some minor changes in your code, such as the order or way you write out if statements, can impact your runtime through the judge. Most of the time, this is not useful information. The judge will give you different runtimes for the exact same code, that&rsquo;s just how timing code works, some runs will be faster than others. But deep down I always wondered, if you broke it down to the  bytecode, would there be a noticeable difference between some lines of code that don&rsquo;t seem very different at a high level?</p>
+<h2 id="combo-inequality-vs-two-inequalities-combined-with-an-and-operator">Combo inequality vs two inequalities combined with an and operator</h2>
+<h3 id="x--y--z-text-vs--x--y-wedge-y--z">$x &lt; y &lt; z \text{ vs } x &lt; y \wedge y &lt; z$</h3>
+<p>At a high level, these are the same. But when we use <a href="godbolt.com">Godbolt</a> to dive deeper and look at the bytecode, we will see that there are some differences.</p>
+<p>For the first case, $x &lt; y &lt; z$, we can represent it with the following code snippet:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">compare</span>(target, lower, upper):
+    <span style="color:#66d9ef">if</span> lower <span style="color:#f92672">&lt;</span> target <span style="color:#f92672">&lt;</span> upper:
+        <span style="color:#66d9ef">return</span> True
+</code></pre></div><p>The second case, $x &lt; y \wedge y &lt; x$:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">compare</span>(target, lower, upper):
+    <span style="color:#66d9ef">if</span> lower <span style="color:#f92672">&lt;</span> target <span style="color:#f92672">and</span> target <span style="color:#f92672">&lt;</span> upper:
+        <span style="color:#66d9ef">return</span> True
+</code></pre></div><p>Now we look at the bytecode for the first case:</p>
+<pre><code> 2 LOAD_FAST                1 (lower)
+ 4 LOAD_FAST                0 (target)
+ 6 SWAP                     2
+ 8 COPY                     2
+10 COMPARE_OP               2 (&lt;)
+14 POP_JUMP_IF_FALSE        5 (to 26)
+16 LOAD_FAST                2 (upper)
+18 COMPARE_OP               2 (&lt;)
+22 POP_JUMP_IF_FALSE        3 (to 30)
+
+24 RETURN_CONST             1 (True)
+
+26 POP_TOP
+28 RETURN_CONST             0 (None)
+30 RETURN_CONST             0 (None)
+</code></pre><p>And the bytecode for the second case:</p>
+<pre><code> 2 LOAD_FAST                1 (lower)
+ 4 LOAD_FAST                0 (target)
+ 6 COMPARE_OP               2 (&lt;)
+10 POP_JUMP_IF_FALSE        7 (to 26)
+12 LOAD_FAST                0 (target)
+14 LOAD_FAST                2 (upper)
+16 COMPARE_OP               2 (&lt;)
+20 POP_JUMP_IF_FALSE        1 (to 24)
+
+22 RETURN_CONST             1 (True)
+
+24 RETURN_CONST             0 (None)
+26 RETURN_CONST             0 (None)
+</code></pre><p>The first thing that jumps out are the extra <code>SWAP</code> and <code>COPY</code> instructions in the first case. To compensate for not having two occurrences of the <code>target</code> parameter, the code will make a copy of <code>target</code> to use in the <code>18 COMPARE_OP</code> instruction.</p>
+<p>Because of the extra <code>SWAP</code> and <code>COPY</code> instructions, the first <code>COMPARE_OP</code> and <code>POP_JUMP_IF_FALSE</code> instructions occur earlier in the second case than the first case.</p>
+<p>In essence, the <code>AND</code> operator doesn&rsquo;t make any extra work for the virtual machine, but omitting a second <code>target</code> in the python code does as the virtual machine needs to make a copy of it for the comparison operation.</p>
+<p>The actual runtime trade off is negligible when running <code>timeit</code>, it&rsquo;s random which one of the two code samples executes faster. For conceptual simplicity, I&rsquo;ll stick to writing these types of statements with the combo operator, but it&rsquo;s interesting to know that it makes just a tiny bit more work for the virtual machine.</p>
+
+    </div>
+  
+    <div class="post">
         <h1 class="post-title"><a href="https://franklinliang.github.io/posts/homelab-2/">Homelab 2</a></h1>
         <span class="post-date">Jun 16, 2024</span>
         <h1 id="hiatus">Hiatus</h1>
