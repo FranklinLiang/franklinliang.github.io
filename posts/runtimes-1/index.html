@@ -74,13 +74,13 @@
   <h1 id="so-ive-been-doing-a-lot-of-dsa-questions">So I&rsquo;ve been doing a lot of DSA questions</h1>
 <p>In preparation for coding interviews I&rsquo;ve been studying a lot of data structures and algorithms problems. The main goal when solving these problems is to work out a solution that has low time and space complexity. However when you submit questions on a online judge such as Leetcode, you tend to notice that some minor changes in your code, such as the order or way you write out if statements, can impact your runtime through the judge. Most of the time, this is not useful information. The judge will give you different runtimes for the exact same code, that&rsquo;s just how timing code works, some runs will be faster than others. But deep down I always wondered, if you broke it down to the  bytecode, would there be a noticeable difference between some lines of code that don&rsquo;t seem very different at a high level?</p>
 <h2 id="combo-inequality-vs-two-inequalities-combined-with-an-and-operator">Combo inequality vs two inequalities combined with an and operator</h2>
-<h3 id="x--y--z-text-vs--x--y-wedge-y--z">$x &lt; y &lt; z \text{ vs } x &lt; y \wedge y &lt; z$</h3>
+<h3 id="x--y--z-vs-x--y-and-y--z"><code>x &lt; y &lt; z</code> v.s. <code>x &lt; y and y &lt; z</code></h3>
 <p>At a high level, these are the same. But when we use <a href="godbolt.com">Godbolt</a> to dive deeper and look at the bytecode, we will see that there are some differences.</p>
-<p>For the first case, $x &lt; y &lt; z$, we can represent it with the following code snippet:</p>
+<p>For the first case, <code>x &lt; y &lt; z</code>, we can represent it with the following code snippet:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">compare</span>(target, lower, upper):
     <span style="color:#66d9ef">if</span> lower <span style="color:#f92672">&lt;</span> target <span style="color:#f92672">&lt;</span> upper:
         <span style="color:#66d9ef">return</span> True
-</code></pre></div><p>The second case, $x &lt; y \wedge y &lt; x$:</p>
+</code></pre></div><p>The second case, <code>x &lt; y and y &lt; x</code>$`:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">compare</span>(target, lower, upper):
     <span style="color:#66d9ef">if</span> lower <span style="color:#f92672">&lt;</span> target <span style="color:#f92672">and</span> target <span style="color:#f92672">&lt;</span> upper:
         <span style="color:#66d9ef">return</span> True
