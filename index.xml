@@ -5,8 +5,52 @@
     <language>en-us</language>
     <author>Franklin Liang</author>
     <rights>(C) 2024</rights>
-    <updated>2024-06-22 04:51:25 -0400 EDT</updated>
+    <updated>2024-06-25 03:53:19 -0400 EDT</updated>
 
+    
+      <item>
+        <title>Runtimes 2</title>
+        <link>https://franklinliang.github.io/posts/runtimes-2/</link>
+        <pubDate>Tue, 25 Jun 2024 03:53:19 EDT</pubDate>
+        <author>Franklin Liang</author>
+        <guid>https://franklinliang.github.io/posts/runtimes-2/</guid>
+        <description>&lt;h1 id=&#34;verbose-if-else-vs-one-liner-if-else&#34;&gt;Verbose if else v.s. one-liner if else&lt;/h1&gt;
+&lt;p&gt;This is a case that I believe to have seen actually impact runtimes somewhat consistently, so I&amp;rsquo;m interested to see if it was placebo or if this small change actually affects the runtime. The example goes as follows:&lt;/p&gt;
+&lt;h2 id=&#34;case-1-verbose&#34;&gt;Case 1: Verbose&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ifelse&lt;/span&gt;(x):
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; x:
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; True
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; False
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;case-2-one-liner&#34;&gt;Case 2: One-liner&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ifelse&lt;/span&gt;(x):
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; True &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; x &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; False
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can see that given the same input &lt;code&gt;x&lt;/code&gt;, we would get the same result in the return statement. In my experience, I believe that the one-liner implementation is faster.&lt;/p&gt;
+&lt;p&gt;Now to see what differs in the bytecode:&lt;/p&gt;
+&lt;h2 id=&#34;case-1&#34;&gt;Case 1:&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt; 2 LOAD_FAST                0 (x)
+ 4 POP_JUMP_IF_FALSE        1 (to 8) 
+
+ 6 RETURN_CONST             1 (True)
+
+ 8 RETURN_CONST             2 (False)
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;case-2&#34;&gt;Case 2:&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt; 2 LOAD_FAST                0 (x)
+ 4 POP_JUMP_IF_FALSE        2 (to 10)
+ 6 LOAD_CONST               1 (True)
+ 8 RETURN_VALUE
+10 LOAD_CONST               2 (False)
+12 RETURN_VALUE
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;At a first glance, this doesn&amp;rsquo;t really look good for one-liner implementation. It&amp;rsquo;s two lines longer where it requires the virtual machine to load the Boolean values in the instruction &lt;code&gt;LOAD_CONST&lt;/code&gt; and then returning the value instead of the combined instruction &lt;code&gt;RETURN_CONST&lt;/code&gt;. Running &lt;code&gt;timeit&lt;/code&gt; once again provided not very helpful results. There was no particular trend when testing the functions using both &lt;code&gt;True&lt;/code&gt; and &lt;code&gt;False&lt;/code&gt; as parameters.&lt;/p&gt;
+&lt;p&gt;In the process of looking for why this discrepancy occurs, I found the &lt;a href=&#34;https://github.com/python/cpython/issues/101632&#34;&gt;Github issue&lt;/a&gt; that originally proposed the creation of the &lt;code&gt;RETURN_CONST&lt;/code&gt; instruction. Surprisingly this issue was opened fairly recently, February 7th, 2023, only about a year ago. The original author proposed a change to combine instances of &lt;code&gt;LOAD_CONST&lt;/code&gt; and &lt;code&gt;RETURN_VALUE&lt;/code&gt; as they appeared in pairs very often. Their notes say that adding the combined instruction created a small performance boost.&lt;/p&gt;
+&lt;p&gt;What really surprised me here was how little discussion was needed to push this change. While the author did provide a lot of evidence towards the performance gain and the frequency of occurrences, it is still interesting that there was no debate at all in adding this feature.&lt;/p&gt;
+&lt;p&gt;Which lead me to this &lt;a href=&#34;https://github.com/faster-cpython/ideas/issues/577&#34;&gt;issue&lt;/a&gt;. It was opened a mere month after the addition of &lt;code&gt;RETURN_CONST&lt;/code&gt; and brings up some points as to why &lt;code&gt;RETURN_CONST&lt;/code&gt; should be removed. This issue was not raised in the original CPython repo but in a branched project called faster-cpython which was started as a Microsoft backed project to make Python faster. I&amp;rsquo;m getting off topic now but there are some interesting points raised in that thread that could belong in the original issue. A change like introducing a new instruction seems like a big enough change that it warrants a larger discussion, but perhaps allowing more or less non-intrusive changes like this makes the CPython project more attractive for developers to contribute their time to.&lt;/p&gt;
+&lt;p&gt;Wow, that went way off topic. Based off of the raw instruction count and the existence of the &lt;code&gt;RETURN_CONST&lt;/code&gt; instruction, these elements imply that the verbose method should be the faster of the two.&lt;/p&gt;
+&lt;p&gt;It might be worth looking into why the one-liner doesn&amp;rsquo;t combine the &lt;code&gt;LOAD_CONST&lt;/code&gt; and &lt;code&gt;RETURN_VALUE&lt;/code&gt; instructions into one &lt;code&gt;RETURN_CONST&lt;/code&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Footnote: I found an &lt;a href=&#34;https://www.mail-archive.com/python-dev@python.org/msg95690.html&#34;&gt;even earlier mailing list entry&lt;/a&gt; discussing the idea of introducing &lt;code&gt;RETURN_CONST&lt;/code&gt; back from 2017. They propose the exact same idea but they say that they didn&amp;rsquo;t have enough bandwidth to drive the idea at the time.&lt;/p&gt;
+</description>
+      </item>
     
       <item>
         <title>Runtimes 1</title>

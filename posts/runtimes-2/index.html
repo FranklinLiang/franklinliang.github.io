@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Runtimes 2 &middot; My Thoughts
+    
+  </title>
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>
+      Collection of ideas. Powered by <a href="https://gohugo.io/getting-started/quick-start/">Hugo</a>, theme based on <a href="https://lanyon.getpoole.com/">Lanyon</a>.
+    </p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item " href="/">Home</a>
+    <a class="sidebar-nav-item " href="/posts">Posts</a>
+    <a class="sidebar-nav-item " href="/media">Media</a>
+    <a class="sidebar-nav-item " href="/about">About</a>
+    </nav>
+
+  <div class="sidebar-item">
+    <p>&copy; 2024. All rights reserved.</p>
+  </div>
+</div>
+
+
+    
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">My Thoughts</a>
+            <small>A blog of all time</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+
+
+<div class="post">
+  <h1 class="post-title">Runtimes 2</h1>
+  <span class="post-date">Jun 25, 2024</span>
+  <h1 id="verbose-if-else-vs-one-liner-if-else">Verbose if else v.s. one-liner if else</h1>
+<p>This is a case that I believe to have seen actually impact runtimes somewhat consistently, so I&rsquo;m interested to see if it was placebo or if this small change actually affects the runtime. The example goes as follows:</p>
+<h2 id="case-1-verbose">Case 1: Verbose</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ifelse</span>(x):
+	<span style="color:#66d9ef">if</span> x:
+		<span style="color:#66d9ef">return</span> True
+	<span style="color:#66d9ef">else</span>:
+		<span style="color:#66d9ef">return</span> False
+</code></pre></div><h2 id="case-2-one-liner">Case 2: One-liner</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ifelse</span>(x):
+	<span style="color:#66d9ef">return</span> True <span style="color:#66d9ef">if</span> x <span style="color:#66d9ef">else</span> False
+</code></pre></div><p>We can see that given the same input <code>x</code>, we would get the same result in the return statement. In my experience, I believe that the one-liner implementation is faster.</p>
+<p>Now to see what differs in the bytecode:</p>
+<h2 id="case-1">Case 1:</h2>
+<pre><code> 2 LOAD_FAST                0 (x)
+ 4 POP_JUMP_IF_FALSE        1 (to 8) 
+
+ 6 RETURN_CONST             1 (True)
+
+ 8 RETURN_CONST             2 (False)
+</code></pre><h2 id="case-2">Case 2:</h2>
+<pre><code> 2 LOAD_FAST                0 (x)
+ 4 POP_JUMP_IF_FALSE        2 (to 10)
+ 6 LOAD_CONST               1 (True)
+ 8 RETURN_VALUE
+10 LOAD_CONST               2 (False)
+12 RETURN_VALUE
+</code></pre><p>At a first glance, this doesn&rsquo;t really look good for one-liner implementation. It&rsquo;s two lines longer where it requires the virtual machine to load the Boolean values in the instruction <code>LOAD_CONST</code> and then returning the value instead of the combined instruction <code>RETURN_CONST</code>. Running <code>timeit</code> once again provided not very helpful results. There was no particular trend when testing the functions using both <code>True</code> and <code>False</code> as parameters.</p>
+<p>In the process of looking for why this discrepancy occurs, I found the <a href="https://github.com/python/cpython/issues/101632">Github issue</a> that originally proposed the creation of the <code>RETURN_CONST</code> instruction. Surprisingly this issue was opened fairly recently, February 7th, 2023, only about a year ago. The original author proposed a change to combine instances of <code>LOAD_CONST</code> and <code>RETURN_VALUE</code> as they appeared in pairs very often. Their notes say that adding the combined instruction created a small performance boost.</p>
+<p>What really surprised me here was how little discussion was needed to push this change. While the author did provide a lot of evidence towards the performance gain and the frequency of occurrences, it is still interesting that there was no debate at all in adding this feature.</p>
+<p>Which lead me to this <a href="https://github.com/faster-cpython/ideas/issues/577">issue</a>. It was opened a mere month after the addition of <code>RETURN_CONST</code> and brings up some points as to why <code>RETURN_CONST</code> should be removed. This issue was not raised in the original CPython repo but in a branched project called faster-cpython which was started as a Microsoft backed project to make Python faster. I&rsquo;m getting off topic now but there are some interesting points raised in that thread that could belong in the original issue. A change like introducing a new instruction seems like a big enough change that it warrants a larger discussion, but perhaps allowing more or less non-intrusive changes like this makes the CPython project more attractive for developers to contribute their time to.</p>
+<p>Wow, that went way off topic. Based off of the raw instruction count and the existence of the <code>RETURN_CONST</code> instruction, these elements imply that the verbose method should be the faster of the two.</p>
+<p>It might be worth looking into why the one-liner doesn&rsquo;t combine the <code>LOAD_CONST</code> and <code>RETURN_VALUE</code> instructions into one <code>RETURN_CONST</code>.</p>
+<hr>
+<p>Footnote: I found an <a href="https://www.mail-archive.com/python-dev@python.org/msg95690.html">even earlier mailing list entry</a> discussing the idea of introducing <code>RETURN_CONST</code> back from 2017. They propose the exact same idea but they say that they didn&rsquo;t have enough bandwidth to drive the idea at the time.</p>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    
+  </body>
+</html>
+

@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 Jun 2024 04:51:25 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 25 Jun 2024 03:53:19 -0400</lastBuildDate>
     
 	<atom:link href="https://franklinliang.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Runtimes 2</title>
+      <link>https://franklinliang.github.io/posts/runtimes-2/</link>
+      <pubDate>Tue, 25 Jun 2024 03:53:19 -0400</pubDate>
+      
+      <guid>https://franklinliang.github.io/posts/runtimes-2/</guid>
+      <description>Verbose if else v.s. one-liner if else This is a case that I believe to have seen actually impact runtimes somewhat consistently, so I&amp;rsquo;m interested to see if it was placebo or if this small change actually affects the runtime. The example goes as follows:
+Case 1: Verbose def ifelse(x): if x: return True else: return False Case 2: One-liner def ifelse(x): return True if x else False We can see that given the same input x, we would get the same result in the return statement.</description>
+    </item>
     
     <item>
       <title>Runtimes 1</title>
