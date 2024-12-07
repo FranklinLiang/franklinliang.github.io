@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jun 2024 03:53:19 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 06 Dec 2024 19:08:06 -0500</lastBuildDate>
     
 	<atom:link href="https://franklinliang.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Dude Where&#39;s My Output?</title>
+      <link>https://franklinliang.github.io/posts/dude-wheres-my-output/</link>
+      <pubDate>Fri, 06 Dec 2024 19:08:06 -0500</pubDate>
+      
+      <guid>https://franklinliang.github.io/posts/dude-wheres-my-output/</guid>
+      <description>I recently had to build a simple project simulating a certificate authority, CRL distribution point, web server and client host. The web server ran Apache with a simple HTML page in conjunction with some PHP code. The purpose of the web server was to verify some messages signed by user x509 certificates that were, in turn, signed by the CA. The web server needed to display the output from some OpenSSL verification checks after getting the user x509, message signature and message file.</description>
+    </item>
     
     <item>
       <title>Runtimes 2</title>

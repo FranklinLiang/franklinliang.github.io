@@ -75,6 +75,40 @@
 <div class="posts">
   
     <div class="post">
+        <h1 class="post-title"><a href="https://franklinliang.github.io/posts/dude-wheres-my-output/">Dude Where&#39;s My Output?</a></h1>
+        <span class="post-date">Dec 6, 2024</span>
+        <p>I recently had to build a simple project simulating a certificate authority, CRL distribution point, web server and client host. The web server ran Apache with a simple HTML page in conjunction with some PHP code. The purpose of the web server was to verify some messages signed by user x509 certificates that were, in turn, signed by the CA. The web server needed to display the output from some OpenSSL verification checks after getting the user x509, message signature and message file.</p>
+<p>The command I wanted to run and show output from was:</p>
+<pre><code>openssl verify -verbose -crl_check -CRLfile project.crl.pem -trusted CARootCert.cer user.cer
+</code></pre><p>I needed to test some cases where the user certificate could be revoked or expired. In these cases, when the command is run in the terminal, it returns a multi-line output such as:</p>
+<pre><code>C = Country, ST = State, L = City, O = Organization, OU = Unit, CN = Common Name, emailAddress = email@email.com
+error 23 at 0 depth lookup: certificate revoked
+error uploads/user.cer: verification failed
+</code></pre><p>I combined with the PHP code to execute and display the command output:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$cmd = openssl verify -verbose -crl_check -CRLfile project.crl.pem -trusted CARootCert.cer u.cer
+$res = shell_exec($cmd);
+echo nl2br(htmlspecialchars($res);
+</code></pre></div><p>However, the output to the webpage was:</p>
+<pre><code>error uploads/user.cer: verification failed
+</code></pre><p>Why is it only returning the last line of the output? In my debugging process I tried to run other multi-line commands to see if they print properly. Commands like <code>ls -l</code> print perfectly find using the same code.</p>
+<p>This stumped me super hard, mainly because the only way to search for the solution to this problem was to know the answer already. It was also a bit tricky, as the fact that I was still able to echo the last line of output made it harder for me to reach the correct diagnosis.</p>
+<p>It turns out that the problem was that the first two lines of this output are written to <code>stderr</code> and not <code>stdout</code>. The <code>shell_exec</code> command will only print out the <code>stdout</code> response. This output provided by OpenSSL is a little bit misleading as the <code>stdout</code> response starts with <code>error</code>. Due to my inexperience in bash, the thought of <code>stdout</code> vs <code>stderr</code> never crossed my mind.</p>
+<p>To fix this, it is as simple as appending:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$res = shell_exec($cmd.&#34; 2&gt;&amp;1&#34;);
+</code></pre></div><p>The snippet <code>&quot; 2&gt;&amp;1&quot;</code> is a shell construct that takes file descriptor <code>1</code>, which is <code>stdout</code> and combines it with file descriptor <code>2</code>, which is the <code>stderr</code> into one merged output using <code>&gt;&amp;</code>.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>Finally, I&rsquo;ve found the entire output. This displays the entire <code>stderr</code> along with <code>stdout</code>.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://stackoverflow.com/questions/818255/what-does-21-mean">https://stackoverflow.com/questions/818255/what-does-21-mean</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+  
+    <div class="post">
         <h1 class="post-title"><a href="https://franklinliang.github.io/posts/runtimes-2/">Runtimes 2</a></h1>
         <span class="post-date">Jun 25, 2024</span>
         <h1 id="verbose-if-else-vs-one-liner-if-else">Verbose if else v.s. one-liner if else</h1>

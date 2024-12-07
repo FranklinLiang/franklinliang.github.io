@@ -5,8 +5,45 @@
     <language>en-us</language>
     <author>Franklin Liang</author>
     <rights>(C) 2024</rights>
-    <updated>2024-06-25 03:53:19 -0400 EDT</updated>
+    <updated>2024-12-06 19:08:06 -0500 EST</updated>
 
+    
+      <item>
+        <title>Dude Where&#39;s My Output?</title>
+        <link>https://franklinliang.github.io/posts/dude-wheres-my-output/</link>
+        <pubDate>Fri, 06 Dec 2024 19:08:06 EST</pubDate>
+        <author>Franklin Liang</author>
+        <guid>https://franklinliang.github.io/posts/dude-wheres-my-output/</guid>
+        <description>&lt;p&gt;I recently had to build a simple project simulating a certificate authority, CRL distribution point, web server and client host. The web server ran Apache with a simple HTML page in conjunction with some PHP code. The purpose of the web server was to verify some messages signed by user x509 certificates that were, in turn, signed by the CA. The web server needed to display the output from some OpenSSL verification checks after getting the user x509, message signature and message file.&lt;/p&gt;
+&lt;p&gt;The command I wanted to run and show output from was:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openssl verify -verbose -crl_check -CRLfile project.crl.pem -trusted CARootCert.cer user.cer
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I needed to test some cases where the user certificate could be revoked or expired. In these cases, when the command is run in the terminal, it returns a multi-line output such as:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;C = Country, ST = State, L = City, O = Organization, OU = Unit, CN = Common Name, emailAddress = email@email.com
+error 23 at 0 depth lookup: certificate revoked
+error uploads/user.cer: verification failed
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I combined with the PHP code to execute and display the command output:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;$cmd = openssl verify -verbose -crl_check -CRLfile project.crl.pem -trusted CARootCert.cer u.cer
+$res = shell_exec($cmd);
+echo nl2br(htmlspecialchars($res);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;However, the output to the webpage was:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error uploads/user.cer: verification failed
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Why is it only returning the last line of the output? In my debugging process I tried to run other multi-line commands to see if they print properly. Commands like &lt;code&gt;ls -l&lt;/code&gt; print perfectly find using the same code.&lt;/p&gt;
+&lt;p&gt;This stumped me super hard, mainly because the only way to search for the solution to this problem was to know the answer already. It was also a bit tricky, as the fact that I was still able to echo the last line of output made it harder for me to reach the correct diagnosis.&lt;/p&gt;
+&lt;p&gt;It turns out that the problem was that the first two lines of this output are written to &lt;code&gt;stderr&lt;/code&gt; and not &lt;code&gt;stdout&lt;/code&gt;. The &lt;code&gt;shell_exec&lt;/code&gt; command will only print out the &lt;code&gt;stdout&lt;/code&gt; response. This output provided by OpenSSL is a little bit misleading as the &lt;code&gt;stdout&lt;/code&gt; response starts with &lt;code&gt;error&lt;/code&gt;. Due to my inexperience in bash, the thought of &lt;code&gt;stdout&lt;/code&gt; vs &lt;code&gt;stderr&lt;/code&gt; never crossed my mind.&lt;/p&gt;
+&lt;p&gt;To fix this, it is as simple as appending:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;$res = shell_exec($cmd.&amp;#34; 2&amp;gt;&amp;amp;1&amp;#34;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The snippet &lt;code&gt;&amp;quot; 2&amp;gt;&amp;amp;1&amp;quot;&lt;/code&gt; is a shell construct that takes file descriptor &lt;code&gt;1&lt;/code&gt;, which is &lt;code&gt;stdout&lt;/code&gt; and combines it with file descriptor &lt;code&gt;2&lt;/code&gt;, which is the &lt;code&gt;stderr&lt;/code&gt; into one merged output using &lt;code&gt;&amp;gt;&amp;amp;&lt;/code&gt;.&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;Finally, I&amp;rsquo;ve found the entire output. This displays the entire &lt;code&gt;stderr&lt;/code&gt; along with &lt;code&gt;stdout&lt;/code&gt;.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/818255/what-does-21-mean&#34;&gt;https://stackoverflow.com/questions/818255/what-does-21-mean&lt;/a&gt; &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+      </item>
     
       <item>
         <title>Runtimes 2</title>
