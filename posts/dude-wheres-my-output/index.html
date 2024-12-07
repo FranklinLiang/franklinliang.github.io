@@ -72,7 +72,7 @@
   <h1 class="post-title">Dude Where&#39;s My Output?</h1>
   <span class="post-date">Dec 6, 2024</span>
   <p>I recently had to build a simple project simulating a certificate authority, CRL distribution point, web server and client host. The web server ran Apache with a simple HTML page in conjunction with some PHP code. The purpose of the web server was to verify some messages signed by user x509 certificates that were, in turn, signed by the CA. The web server needed to display the output from some OpenSSL verification checks after getting the user x509, message signature and message file.</p>
-<p>The command I wanted to run and show output from was:</p>
+<p>The command I wanted to run and show output from was:<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <pre><code>openssl verify -verbose -crl_check -CRLfile project.crl.pem -trusted CARootCert.cer user.cer
 </code></pre><p>I needed to test some cases where the user certificate could be revoked or expired. In these cases, when the command is run in the terminal, it returns a multi-line output such as:</p>
 <pre><code>C = Country, ST = State, L = City, O = Organization, OU = Unit, CN = Common Name, emailAddress = email@email.com
@@ -89,13 +89,16 @@ echo nl2br(htmlspecialchars($res);
 <p>It turns out that the problem was that the first two lines of this output are written to <code>stderr</code> and not <code>stdout</code>. The <code>shell_exec</code> command will only print out the <code>stdout</code> response. This output provided by OpenSSL is a little bit misleading as the <code>stdout</code> response starts with <code>error</code>. Due to my inexperience in bash, the thought of <code>stdout</code> vs <code>stderr</code> never crossed my mind.</p>
 <p>To fix this, it is as simple as appending:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$res = shell_exec($cmd.&#34; 2&gt;&amp;1&#34;);
-</code></pre></div><p>The snippet <code>&quot; 2&gt;&amp;1&quot;</code> is a shell construct that takes file descriptor <code>1</code>, which is <code>stdout</code> and combines it with file descriptor <code>2</code>, which is the <code>stderr</code> into one merged output using <code>&gt;&amp;</code>.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+</code></pre></div><p>The snippet <code>&quot; 2&gt;&amp;1&quot;</code> is a shell construct that takes file descriptor <code>1</code>, which is <code>stdout</code> and combines it with file descriptor <code>2</code>, which is the <code>stderr</code> into one merged output using <code>&gt;&amp;</code>.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
 <p>Finally, I&rsquo;ve found the entire output. This displays the entire <code>stderr</code> along with <code>stdout</code>.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://stackoverflow.com/questions/818255/what-does-21-mean">https://stackoverflow.com/questions/818255/what-does-21-mean</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>The whole reason why I even need to execute this command instead of using the OpenSSL PHP library is because there is no way to perform a CRL check using the library! <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://stackoverflow.com/questions/818255/what-does-21-mean">https://stackoverflow.com/questions/818255/what-does-21-mean</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
