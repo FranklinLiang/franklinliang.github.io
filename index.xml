@@ -4,14 +4,14 @@
     <link>https://franklinliang.github.io/</link>
     <language>en-us</language>
     <author>Franklin Liang</author>
-    <rights>(C) 2024</rights>
-    <updated>2024-12-06 19:08:06 -0500 EST</updated>
+    <rights>(C) 2025</rights>
+    <updated>2025-06-02 00:55:04 -0700 PDT</updated>
 
     
       <item>
         <title>Dude Where&#39;s My Output?</title>
         <link>https://franklinliang.github.io/posts/dude-wheres-my-output/</link>
-        <pubDate>Fri, 06 Dec 2024 19:08:06 EST</pubDate>
+        <pubDate>Fri, 06 Dec 2024 19:08:06 -0500</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/dude-wheres-my-output/</guid>
         <description>&lt;p&gt;I recently had to build a simple project simulating a certificate authority, CRL distribution point, web server and client host. The web server ran Apache with a simple HTML page in conjunction with some PHP code. The purpose of the web server was to verify some messages signed by user x509 certificates that were, in turn, signed by the CA. The web server needed to display the output from some OpenSSL verification checks after getting the user x509, message signature and message file.&lt;/p&gt;
@@ -51,7 +51,7 @@ echo nl2br(htmlspecialchars($res);
       <item>
         <title>Runtimes 2</title>
         <link>https://franklinliang.github.io/posts/runtimes-2/</link>
-        <pubDate>Tue, 25 Jun 2024 03:53:19 EDT</pubDate>
+        <pubDate>Tue, 25 Jun 2024 03:53:19 -0400</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/runtimes-2/</guid>
         <description>&lt;h1 id=&#34;verbose-if-else-vs-one-liner-if-else&#34;&gt;Verbose if else v.s. one-liner if else&lt;/h1&gt;
@@ -95,7 +95,7 @@ echo nl2br(htmlspecialchars($res);
       <item>
         <title>Runtimes 1</title>
         <link>https://franklinliang.github.io/posts/runtimes-1/</link>
-        <pubDate>Sat, 22 Jun 2024 04:51:25 EDT</pubDate>
+        <pubDate>Sat, 22 Jun 2024 04:51:25 -0400</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/runtimes-1/</guid>
         <description>&lt;h1 id=&#34;so-ive-been-doing-a-lot-of-dsa-questions&#34;&gt;So I&amp;rsquo;ve been doing a lot of DSA questions&lt;/h1&gt;
@@ -151,7 +151,7 @@ echo nl2br(htmlspecialchars($res);
       <item>
         <title>Homelab 2</title>
         <link>https://franklinliang.github.io/posts/homelab-2/</link>
-        <pubDate>Sun, 16 Jun 2024 21:00:59 EDT</pubDate>
+        <pubDate>Sun, 16 Jun 2024 21:00:59 -0400</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/homelab-2/</guid>
         <description>&lt;h1 id=&#34;hiatus&#34;&gt;Hiatus&lt;/h1&gt;
@@ -179,7 +179,7 @@ echo nl2br(htmlspecialchars($res);
       <item>
         <title>Homelab 1</title>
         <link>https://franklinliang.github.io/posts/homelab-1/</link>
-        <pubDate>Wed, 05 May 2021 03:39:06 EDT</pubDate>
+        <pubDate>Wed, 05 May 2021 03:39:06 -0400</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/homelab-1/</guid>
         <description>&lt;h1 id=&#34;why-how-and-what&#34;&gt;Why, How and What&lt;/h1&gt;
@@ -213,7 +213,7 @@ echo nl2br(htmlspecialchars($res);
       <item>
         <title>Elliotte Friedman</title>
         <link>https://franklinliang.github.io/posts/elliotte-friedman/</link>
-        <pubDate>Sat, 01 May 2021 21:13:37 EDT</pubDate>
+        <pubDate>Sat, 01 May 2021 21:13:37 -0400</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/elliotte-friedman/</guid>
         <description>&lt;h1 id=&#34;who-is-elliotte-friedman&#34;&gt;Who is Elliotte Friedman?&lt;/h1&gt;
@@ -271,7 +271,7 @@ echo nl2br(htmlspecialchars($res);
       <item>
         <title>First Person AHK</title>
         <link>https://franklinliang.github.io/posts/first-person-ahk/</link>
-        <pubDate>Fri, 12 Mar 2021 19:34:10 EST</pubDate>
+        <pubDate>Fri, 12 Mar 2021 19:34:10 -0500</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/first-person-ahk/</guid>
         <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
@@ -328,7 +328,7 @@ echo nl2br(htmlspecialchars($res);
       <item>
         <title>How to run a Tor relay as a student for free</title>
         <link>https://franklinliang.github.io/posts/how-to-run-a-tor-relay-as-a-student-for-free/</link>
-        <pubDate>Sun, 31 Jan 2021 03:23:22 EST</pubDate>
+        <pubDate>Sun, 31 Jan 2021 03:23:22 -0500</pubDate>
         <author>Franklin Liang</author>
         <guid>https://franklinliang.github.io/posts/how-to-run-a-tor-relay-as-a-student-for-free/</guid>
         <description>&lt;blockquote&gt;
